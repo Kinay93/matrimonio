@@ -1,147 +1,90 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Matrimonio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrimonio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+    .foto-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 10px;
+    }
+    .foto-wrapper img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+    .foto-wrapper img:hover {
+      transform: scale(1.02);
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
-<body class="index-page">
-    <header>
-        <h1 id="title">Benvenuti al nostro matrimonio</h1>
-    </header>
+<body>
+  <h1>Benvenuti al nostro matrimonio</h1>
+  <p>Scopri la nostra storia e le foto più belle!</p>
+  <div class="foto-wrapper">
+    <img id="foto-coppia" alt="Foto della coppia">
+  </div>
 
-    <section class="intro">
-        <p>Scopri la nostra storia e le foto più belle!</p>
-        <img id="index-photo" src="default-index.jpg" alt="Foto della coppia">
-    </section>
-
-    <a href="gallery.html?coppia=nomeCoppia" class="pulsante" id="galleria-btn">Galleria</a>
-
-<script>
-window.onload = async () => {
-    try {
-        console.log("[window.onload] Inizio caricamento pagina");
-        const params = new URLSearchParams(window.location.search);
-        const coppia = params.get("coppia") || "default";
-        console.log("[window.onload] coppia:", coppia);
-        await applicaTemaCoppia(coppia);
-        document.getElementById("galleria-btn").href = `gallery.html?coppia=${encodeURIComponent(coppia)}`;
-    } catch (err) {
-        console.error("Errore inizializzazione pagina:", err);
-    }
-};
-
-// --- Helper: HEX to RGB
-function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
-    const bigint = parseInt(hex, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = (bigint & 255);
-    return `${r},${g},${b}`;
-}
-
-function mixColors(rgb1, rgb2) {
-    const [r1, g1, b1] = rgb1.split(',').map(Number);
-    const [r2, g2, b2] = rgb2.split(',').map(Number);
-    return `${Math.floor((r1 + r2) / 2)},${Math.floor((g1 + g2) / 2)},${Math.floor((b1 + b2) / 2)}`;
-}
-
-function getContrastColor(rgb) {
-    const [r, g, b] = rgb.split(',').map(Number);
-    return (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? '#000000' : '#ffffff';
-}
-
-function applicaTemaCoppiaExtra(sfondo, sfondoSecondario, font) {
-    console.log("[Extra] Applico tema coppia extra con sfondo:", sfondo, "sfondoSecondario:", sfondoSecondario, "font:", font);
-    const rgb1 = hexToRgb(sfondo);
-    const rgb2 = hexToRgb(sfondoSecondario);
-    const coloreTerzo = `rgb(${mixColors(rgb1, rgb2)})`;
-    const contrastText = getContrastColor(mixColors(rgb1, rgb2));
-
-    document.querySelectorAll('button, a, th, td, p, span, h1, h2, h3, h4, h5, h6, label, input, select, textarea')
-        .forEach(el => {
-            if (['BUTTON','A','TH','TD'].includes(el.tagName)) {
-                el.style.backgroundColor = coloreTerzo;
-                el.style.color = contrastText;
-            }
-            el.style.font = font;
-        });
-}
-
-async function applicaTemaCoppia(coppia) {
-    try {
-        console.log("[Tema] Carico tema coppia:", coppia);
+  <script>
+    async function caricaFotoCoppia(coppia) {
+      try {
         const res = await fetch(`https://matrimonioapp.ew.r.appspot.com/admin/get_coppia?coppia=${encodeURIComponent(coppia)}`);
-        const config = await res.json() || {};
-        console.log("[Tema] Dati coppia ricevuti:", config);
-
-        const sfondo = config.sfondo || '#ffffff';
-        const sfondoSecondario = config.sfondo_secondario || '#eeeeee';
-        const testo = config.testo || '#000000';
-        const font = config.font || 'Arial, Helvetica, sans-serif';
-        const effetto_scritta = config.effetto_scritta;
-        const effetto_sfondo = config.effetto_sfondo;
-
-        console.log("[Tema] Sfondo:", sfondo, "Sfondo secondario:", sfondoSecondario, "Testo:", testo, "Font:", font, "Effetto scritta:", effetto_scritta, "Effetto sfondo:", effetto_sfondo);
-
-        document.body.style.background = `linear-gradient(135deg, ${sfondo}, ${sfondoSecondario})`;
-        console.log("[Tema] Imposto background gradiente:", document.body.style.background);
-        document.body.style.color = testo;
-        document.body.style.fontFamily = font;
-
-        const effettiRes = await fetch('https://matrimonioapp.ew.r.appspot.com/admin/get_effetti');
-        const effettiData = await effettiRes.json();
-        console.log("[Tema] Effetti ricevuti:", effettiData);
-
-        if (effetto_sfondo) {
-            const effSfondo = effettiData.sfondo.find(e => e.id === effetto_sfondo);
-            console.log("[Tema] Applico effetto_sfondo:", effetto_sfondo, effSfondo);
-            if (effSfondo && effSfondo.css) {
-                const css = effSfondo.css
-                    .replace(/var\(--bg-color\)/g, sfondo)
-                    .replace(/var\(--bg-color-secondario\)/g, sfondoSecondario)
-                    .replace(/var\(--bg-color-rgb\)/g, hexToRgb(sfondo))
-                    .replace(/var\(--bg-color-secondario-rgb\)/g, hexToRgb(sfondoSecondario));
-                console.log("[Tema] CSS effetto_sfondo:", css);
-                css.split(';').forEach(rule => {
-                    if (rule.trim()) {
-                        let [prop, ...rest] = rule.split(':');
-                        let val = rest.join(':');
-                        console.log("[Tema] Regola:", prop.trim(), "Valore:", val.trim());
-                        if (prop.trim() === 'background') {
-                            document.body.style.background = val.trim();
-                        } else if (prop.trim() === 'background-image') {
-                            document.body.style.backgroundImage = val.trim();
-                        } else if (prop.trim() === 'background-color') {
-                            document.body.style.backgroundColor = val.trim();
-                        } else {
-                            document.body.style.setProperty(prop.trim(), val.trim());
-                        }
-                    }
-                });
-            }
+        const dati = await res.json();
+        if (dati && dati.foto_url) {
+          const img = document.getElementById('foto-coppia');
+          img.src = dati.foto_url;
+        } else {
+          console.warn("Nessuna foto trovata per la coppia");
         }
-
-        applicaTemaCoppiaExtra(sfondo, sfondoSecondario, font);
-    } catch (err) {
-        console.warn("Tema admin non caricato:", err);
+      } catch (err) {
+        console.error("Errore nel caricamento della foto:", err);
+      }
     }
-}
 
-// Osserva eventuali modifiche allo style del body
-const observer = new MutationObserver(mutations => {
-    mutations.forEach(m => {
-        if (m.attributeName === 'style') {
-            console.log("[Observer] Body style cambiato:", document.body.getAttribute('style'));
-        }
-    });
-});
-observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
-
-</script>
+    window.onload = async function() {
+      const params = new URLSearchParams(window.location.search);
+      const coppia = params.get('coppia');
+      if (coppia) {
+        await applicaTemaCoppia(coppia);
+        await caricaFotoCoppia(coppia);
+      }
+    };
+  </script>
 </body>
 </html>
-
