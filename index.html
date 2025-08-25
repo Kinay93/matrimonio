@@ -239,7 +239,7 @@ console.log("sono nei:", "3 if");
                 // --- Overlay automatico se c'è immagine
                 const urlMatch = css.match(/url\(([^)]+)\)/);
                 if (urlMatch) {
-                    onsole.log("urlMatch", document.getElementById('admin-theme-overlay') );
+                    console.log("urlMatch", document.getElementById('admin-theme-overlay') );
                     let overlay = document.getElementById('admin-theme-overlay');
                     if (!overlay) {
                         console.log("sono nel overlay");
@@ -259,8 +259,11 @@ console.log("sono nei:", "3 if");
                         overlay.style.backgroundColor = `rgba(${hexToRgb(sfondo)},0.3)`;
                     }
                 } else {
+                    console.log("sono nel else di urlmatch ");
                     const existingOverlay = document.getElementById('admin-theme-overlay');
-                    if (existingOverlay) existingOverlay.remove();
+                    if (existingOverlay) {
+                        console.log.("faccio la remove");
+                        existingOverlay.remove();
                 }
             }
         }
@@ -276,6 +279,7 @@ console.log("sono nei:", "3 if");
 </script>
 </body>
 </html>
+
 
 
 
