@@ -217,16 +217,20 @@ async function applicaTemaCoppia(coppia) {
                         let val = rest.join(':');
                         // Se l’effetto contiene background, usa background-image per non cancellare il gradiente
                        if (prop.trim() === 'background') {
-    console.log("sono nei:", "1 if")
+    console.log("sono nei:", "1 if");
+    console.log("sono nei:", val.trim());
     document.body.style.background = val.trim();
 } else if (prop.trim() === 'background-image') {
 console.log("sono nei:", "2 if")
+console.log("sono nei:", val.trim());
     document.body.style.backgroundImage = val.trim();
 } else if (prop.trim() === 'background-color') {
-console.log("sono nei:", "3 if")
+console.log("sono nei:", "3 if");
+                               console.log("sono nei:", val.trim());
     document.body.style.backgroundColor = val.trim();
 } else {
     console.log("sono nei:", "else")
+                           console.log("sono nei:", val.trim());
     document.body.style.setProperty(prop.trim(), val.trim());
 }
                     }
@@ -235,8 +239,10 @@ console.log("sono nei:", "3 if")
                 // --- Overlay automatico se c'è immagine
                 const urlMatch = css.match(/url\(([^)]+)\)/);
                 if (urlMatch) {
+                    onsole.log("urlMatch", document.getElementById('admin-theme-overlay') );
                     let overlay = document.getElementById('admin-theme-overlay');
                     if (!overlay) {
+                        console.log("sono nel overlay");
                         overlay = document.createElement('div');
                         overlay.id = 'admin-theme-overlay';
                         overlay.className = 'overlay';
@@ -270,6 +276,7 @@ console.log("sono nei:", "3 if")
 </script>
 </body>
 </html>
+
 
 
 
