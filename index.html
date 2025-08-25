@@ -101,10 +101,10 @@ async function applicaTemaCoppia(coppia) {
             console.log("[Tema] Applico effetto_sfondo:", effetto_sfondo, effSfondo);
             if (effSfondo && effSfondo.css) {
                 const css = effSfondo.css
-                    .replace(/var\(--sfondo\)/g, sfondo)
-                    .replace(/var\(--sfondo-secondario\)/g, sfondoSecondario)
-                    .replace(/var\(--sfondo-rgb\)/g, hexToRgb(sfondo))
-                    .replace(/var\(--sfondo-secondario-rgb\)/g, hexToRgb(sfondoSecondario));
+                    .replace(/var\(--bg-color\)/g, sfondo)
+                    .replace(/var\(--bg-color-secondario\)/g, sfondoSecondario)
+                    .replace(/var\(--bg-color-rgb\)/g, hexToRgb(sfondo))
+                    .replace(/var\(--bg-color-secondario-rgb\)/g, hexToRgb(sfondoSecondario));
                 console.log("[Tema] CSS effetto_sfondo:", css);
                 css.split(';').forEach(rule => {
                     if (rule.trim()) {
@@ -144,3 +144,4 @@ observer.observe(document.body, { attributes: true, attributeFilter: ['style'] }
 </script>
 </body>
 </html>
+
