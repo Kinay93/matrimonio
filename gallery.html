@@ -145,7 +145,7 @@
 
       document.getElementById("home-btn").href = `index.html?coppia=${encodeURIComponent(coppia)}`;
       document.getElementById("upload-btn").href = `upload.html?coppia=${encodeURIComponent(coppia)}`;
-
+      console.log("coppia: ", coppia);
       await loadGallery(coppia);
     };
   </script>
