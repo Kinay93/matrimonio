@@ -13,7 +13,7 @@ async function applicaTemaCoppia(coppia) {
 
     // Recupero dati coppia
     const res = await fetch(`https://matrimonioapp.ew.r.appspot.com/admin/get_coppia?coppia=${encodeURIComponent(coppia)}`);
-    const datiCoppia = await response.json();
+    const datiCoppia = await res.json();
     console.log("[Tema] Dati coppia ricevuti:", datiCoppia);
 
     const sfondo = datiCoppia.sfondo;
