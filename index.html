@@ -238,6 +238,7 @@ console.log("sono nei:", "3 if");
 
                 // --- Overlay automatico se c'è immagine
                 const urlMatch = css.match(/url\(([^)]+)\)/);
+                console.log("urlmatch ", urlMatch);
                 if (urlMatch) {
                     console.log("urlMatch");
                     let overlay = document.getElementById('admin-theme-overlay');
@@ -261,6 +262,7 @@ console.log("sono nei:", "3 if");
                 } else {
                     console.log("sono nel else di urlmatch ");
                     const existingOverlay = document.getElementById('admin-theme-overlay');
+                    console.log("existingOverlay ", existingOverlay)
                     if (existingOverlay) {
                         console.log("faccio la remove");
                         existingOverlay.remove();
@@ -280,6 +282,7 @@ console.log("sono nei:", "3 if");
 </script>
 </body>
 </html>
+
 
 
 
