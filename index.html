@@ -76,15 +76,22 @@
         console.error("Errore nel caricamento della foto:", err);
       }
     }
-
+    
     window.onload = async function() {
       const params = new URLSearchParams(window.location.search);
       const coppia = params.get('coppia');
       if (coppia) {
         await applicaTemaCoppia(coppia);
         await caricaFotoCoppia(coppia);
+        document.getElementById("gallery-btn").href = `gallery.html?coppia=${encodeURIComponent(coppia)}`;
       }
     };
   </script>
+  <footer>
+    <!--a href="#" id="storie-btn">Un pò di noi</a-->
+    <a href="#" id="gallery-btn">Galleria</a>
+  </footer>
 </body>
+  
 </html>
+
